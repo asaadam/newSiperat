@@ -1,24 +1,20 @@
 import React from 'react';
 import { Tab, Grid } from 'semantic-ui-react'
-import BukuTamu from './BukuTamu';
-import CekSurat from './cekSurat';
-import PengajuanSurat from './PengajuanSurat';
-export default function HomePage() {
-  
+import DetailPengaju from '../components/DetailPengaju';
+
+export default function Admin() {
     const panes = [
         {
             menuItem: 'Pengajuan Surat',
             render: () => <Tab.Pane attached={false}>
-                  <PengajuanSurat/>
+                <DetailPengaju />
             </Tab.Pane>,
         },
         {
             menuItem: 'Buku Tamu',
-            render: () => <Tab.Pane attached={false}><BukuTamu /></Tab.Pane>,
-        },
-        {
-            menuItem: 'Cek Status Surat',
-            render: () => <Tab.Pane attached={false}><CekSurat /></Tab.Pane>,
+            render: () => <Tab.Pane attached={false}>                
+            <h1>Buku Tamu</h1>           
+            </Tab.Pane>,
         },
     ]
     const TabExampleAttachedFalse = () => (
@@ -45,3 +41,16 @@ export default function HomePage() {
 
     }
 }
+
+// return (
+//     <div style={{padding:'16px'}}>
+//     <div style={{ border: '0.1rem solid', padding: '16px', borderRadius: '5px', borderColor: '#bfbcb4' }}>
+//     <h4>List Surat</h4>
+
+
+
+//     <DetailPengaju/>
+
+//     </div>
+//     </div>
+// )

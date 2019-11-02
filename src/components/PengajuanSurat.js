@@ -1,8 +1,9 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css"
-import { Form, Button, Dropdown, Divider, Message, Icon } from 'semantic-ui-react'
+import { Form, Button, Dropdown, Divider } from 'semantic-ui-react'
 import './pengajuan.scss';
 import shortid from 'shortid';
+import DetailItem from './DetailSurat';
 
 
 
@@ -63,7 +64,6 @@ const DetailSurat = ({ onSend }) => {
     let [jenisSurat, setJenisSurat] = useState('');
     let [keperluanSurat, setKeperluanSurat] = useState('');
     let [penerima, setPenerima] = useState('');
-    let [perihal, setPerihal] = useState('');
     let [url, setUrl] = useState();
     return (
         <Form>
@@ -84,25 +84,18 @@ const DetailSurat = ({ onSend }) => {
                 label='Nama Penerima'
                 placeholder='Adam S'
                 required
-
+                value={penerima}
                 onChange={(data) => {
                     setPenerima(data.target.value);
                 }}
             />
-            <Form.Input
-                fluid
-                label='Perihal'
-                placeholder='Apa sih perihal ini>'
-                required
-                onChange={(data) => {
-                    setPerihal(data.target.value);
-                }}
-            />
+
             <Form.Input
                 fluid
                 label='Url'
                 placeholder='www.drive.google.com'
                 required
+                value={url}
                 onChange={(data) => {
                     setUrl(data.target.value);
                 }}
@@ -113,78 +106,29 @@ const DetailSurat = ({ onSend }) => {
                     jenisSurat: jenisSurat,
                     keperluanSurat: keperluanSurat,
                     penerima: penerima,
-                    perihal: perihal,
                     url: url
                 }
                 onSend(surat);
+                setJenisSurat('');
+                setKeperluanSurat('');
+                setPenerima('');
+                setPenerima('');
+                setUrl('');
             }}>Tambah Surat </Button>
         </Form>
     )
 
 }
 
-const FormDataAwal = () => {
-    return (
-        <Form>
-            <Form.Input
-                fluid
-                label='Nama'
-                placeholder='Adam S'
-                required
-            />
-            <Form.Input
-                fluid
-                label='Asal'
-                placeholder='Bem Fisip'
-                required
-            />
-            <Form.Input
-                fluid
-                label='No hp / line'
-                placeholder='08xxx'
-                required
-                type='number'
-            />
-            <Form.Field required>
-                <label>Kementrian </label>
-                <DropdownExampleSearchSelection data={kementrian} />
-            </Form.Field>
 
-
-            <Form.Input
-                fluid
-                label='Nama Acara'
-                placeholder='pk2 maba'
-                required
-
-            />
-        </Form>
-
-    )
-}
-const DetailItem = (props) => {
-    return (
-        <Fragment>
-            <Message >
-                <Icon name="window close" onClick={()=>{
-                    props.onDelete(props.data.key);
-                }}/>
-                <h5>Jenis Surat : {props.data.jenisSurat}</h5>
-                <h5>Keperluan :  {props.data.keperluanSurat}</h5>
-                <h5>Kategori Penerima :  {props.data.penerima}</h5>
-                <h5>Perihal :  {props.data.perihal}</h5>
-                <h5>Url Surat :  {props.data.url}</h5>
-
-            </Message>
-            <Divider />
-        </Fragment>
-    )
-}
 
 
 export default function PengajuanSurat() {
 
-
+    let [nama, setNama] = useState('');
+    let [kementrianField, setKementrian] = useState('');
+    let [nohp, setNohp] = useState('');
+    let [acara, setAcara] = useState();
     let [surat, setSurat] = useState([]);
 
 
@@ -192,18 +136,54 @@ export default function PengajuanSurat() {
         setSurat([...surat, val]);
     }
 
-    const deletSurat = (val)=>{
-        setSurat(surat.filter(obj=>obj.key !== val));
+    const deletSurat = (val) => {
+        setSurat(surat.filter(obj => obj.key !== val));
     }
-
-
 
     return (
         <div style={{ padding: '16px' }}>
             <h3>Ajukan Surat</h3>
             <div style={{ border: '0.1rem solid', padding: '16px', borderRadius: '5px', borderColor: '#bfbcb4' }}>
                 <h4>Isikan Data diri pengajuan surat, serta asal surat</h4>
-                <FormDataAwal />
+                <Form>
+                    <Form.Input
+                        fluid
+                        label='Nama'
+                        placeholder='Adam S'
+                        required
+                        
+                        onChange={(e, { value }) => {
+                            setNama(value);
+                        }}
+                    />
+                    <Form.Input
+                        fluid
+                        label='No hp / line'
+                        placeholder='08xxx'
+                        required
+                        type='number'
+                        onChange={(e, { value }) => {
+                            setNohp(value);
+                        }}
+                    />
+                    <Form.Field required>
+                        <label>Kementrian </label>
+                        <DropdownExampleSearchSelection data={kementrian} onClick={(e, { value }) => {
+                            setKementrian(value);
+                        }} />
+                    </Form.Field>
+
+
+                    <Form.Input
+                        fluid
+                        label='Nama Acara'
+                        placeholder='pk2 maba'
+                        required
+                        onChange={(e, { value }) => {
+                            setAcara(value);
+                        }}
+                    />
+                </Form>
 
             </div>
             <Divider />
@@ -218,12 +198,14 @@ export default function PengajuanSurat() {
             <h4>List Surat</h4>
             {surat.length ? surat.map((data) => {
                 return (
-                    <DetailItem data={data} key={data.key} onDelete={deletSurat}/>
+                    <DetailItem data={data} key={data.key} onDelete={deletSurat} />
                 )
             }) : <h4>Belum ada surat ... </h4>}
             <Divider />
 
-            <Button fluid style={{ marginTop: '1rem' }}> Ajukan Surat</Button>
+            <Button fluid style={{ marginTop: '1rem' }} onClick={() => {
+                console.log(nama, nohp, kementrianField, acara, surat );
+            }}> Ajukan Surat</Button>
         </div>
     )
 }

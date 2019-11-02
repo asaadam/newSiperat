@@ -1,0 +1,24 @@
+{
+    "nama":"Adam",
+    "noHp":"087123",
+    "penerima":"Sekertaris",
+    "namaAcara":"Pk2 Maba",
+    "surat":[
+        {
+            "jenisSurat": "undangan",
+            "keperluanSurat": "external",
+            "penerima": "Syaukani",
+            "url": "www.googlecom"
+        },  {
+            "jenisSurat": "asd",
+            "keperluanSurat": "asd",
+            "penerima": "123",
+            "url": "www.asdasf"
+        },  {
+            "jenisSurat": "undanga23n",
+            "keperluanSurat": "exte1313rnal",
+            "penerima": "Syaggukani",
+            "url": "www.googlecasdggom"
+        }
+    ]
+}
